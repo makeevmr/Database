@@ -1,15 +1,15 @@
 CC=g++
 CFLAGS=-pedantic-errors -g -lpqxx -lpq
 SOURCES_EXECUTABLE1=src/test.cpp src/ParseQuery/ParseQuery.cpp
-# SOURCES_EXECUTABLE2=select.cpp
+SOURCES_EXECUTABLE2=src/select.cpp
 
-all: test.o
+all: test.o select.o
 
 test.o:
 	$(CC) $(SOURCES_EXECUTABLE1) $(CFLAGS) -o $@
 
-# select.o: 
-# 	$(CC) $(SOURCES_EXECUTABLE2) $(CFLAGS) -o $@
+select.o: 
+	$(CC) $(SOURCES_EXECUTABLE2) $(CFLAGS) -o $@
 
 .PHONY: clean
 
