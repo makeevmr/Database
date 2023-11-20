@@ -241,5 +241,6 @@ void updateColumnSize(const std::string &query,
         if (command == "DROP") {
             parseDropQuery(query, tables_map);
         }
+        // TODO throw exception later
     }
 }
