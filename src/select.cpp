@@ -11,40 +11,46 @@ public:
 };
 
 void viewTalbe(const pqxx::result &res, const std::unordered_map<std::string, size_t> &column_map) {
-    unsigned int num_rows = res.size();
-    unsigned int num_cols = res.columns();
+    unsigned int rows_num = res.size();
+    unsigned int cols_num = res.columns();
     unsigned int spaces_amount;
-    for (unsigned int col_index = 0; col_index < num_cols; ++col_index) {
+    for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
         const std::string str_col_name = std::string(res.column_name(col_index));
-        spaces_amount = column_map.at(str_col_name) - str_col_name.size();
-        /* if (spaces_amount % 2 == 0) { */
-        /*     spaces_amount += 2; */
-        /* } else { */
-        /*     spaces_amount += 3; */
-        /* } */
-        /* spaces_amount >>= 1; */
-        /* spaces_amount += static_cast<unsigned int>(str_col_name.size()); */
-        spaces_amount >>= 1;
-        ++spaces_amount;
-        /* std::cout << spaces_amount << '\n'; */
-        std::cout << std::string(spaces_amount, ' ');
-        std::cout << str_col_name;
-        std::cout << std::string(spaces_amount, ' ');
-        if (col_index == num_cols - 1) {
-            std::cout << '\n';
-        } else {
+        std::cout << std::left << std::setfill(' ') << std::setw(column_map.at(str_col_name) + 1) << str_col_name;
+        if (col_index != cols_num - 1) {
             std::cout << '|';
+        } else {
+            std::cout << '\n';
         }
     }
-    /* for (unsigned int rownum = 0; rownum < num_rows; ++rownum) { */
-    /*     const pqxx::row row = R[rownum]; */
-    /*     for (unsigned int colnum = 0; colnum < num_cols; ++colnum) { */
-    /*         const pqxx::field &field = row[colnum]; */
-    /*         std::cout << field.c_str() << '\t'; */
-    /*         std::cout << R[rownum][colnum].c_str() << '\t'; */
-    /*     } */
-    /*     std::cout << '\n'; */
-    /* } */
+    for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
+        const std::string str_col_name = std::string(res.column_name(col_index));
+        std::cout << std::string(column_map.at(str_col_name) + 1, '-');
+        if (col_index != cols_num - 1) {
+            std::cout << '+';
+        } else {
+            std::cout << '\n';
+        }
+    }
+    for (unsigned int row_index = 0; row_index < rows_num; ++row_index) {
+        for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
+            const std::string str_col_name = std::string(res.column_name(col_index));
+            size_t column_size = column_map.at(str_col_name) + 1;
+            const char *cstr_value = res[row_index][col_index].c_str();
+            std::string str_value;
+            if (strlen(cstr_value) < column_size) {
+                str_value = std::string(cstr_value);
+            } else {
+                str_value = std::string(cstr_value, 0, column_size);
+            }
+            std::cout << std::left << std::setfill(' ') << std::setw(column_size) << str_value;
+            if (col_index != cols_num - 1) {
+                std::cout << '|';
+            } else {
+                std::cout << '\n';
+            }
+        }
+    }
 }
 
 int main(int argc, char *argv[]) {
