@@ -227,22 +227,35 @@ void parseDropQuery(const std::string &query,
 
 void updateColumnSize(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
-    std::string command = query.substr(0, 6);
-    std::transform(command.begin(), command.end(), command.begin(), ::toupper);
-    if (command == "CREATE") {
+    if (query[0] == 'C' || query[0] == 'c') {
         parseCreateQuery(query, tables_map);
-    } else if (command == "INSERT") {
+    } else if (query[0] == 'I' || query[0] == 'i') {
         parseInsertQuery(query, tables_map);
-    } else if (command == "UPDATE") {
+    } else if (query[0] == 'U' || query[0] == 'u') {
         parseUpdateQuery(query, tables_map);
     } else {
-        command = query.substr(0, 4);
-        std::transform(command.begin(), command.end(), command.begin(), ::toupper);
-        if (command == "DROP") {
-            parseDropQuery(query, tables_map);
-        }
-        // TODO throw exception later
+        parseDropQuery(query, tables_map);
     }
 }
 
-std::string getTableNameSelectQuery(const std::string &query) {}
+std::string getTableNameSelectQuery(const std::string &query) {
+    std::string table_name;
+    size_t query_index = query.find("from");
+    query_index += 4;
+    while (query[query_index] == ' ') {
+        ++query_index;
+    }
+    while (std::isalnum(query[query_index]) || query[query_index] == '_') {
+        table_name.push_back(query[query_index]);
+        ++query_index;
+    }
+    return table_name;
+}
+
+bool isAcceptableQuery(const std::string &command) {
+    if (command == "SELECT" || command == "CREATE" || command == "INSERT" || command == "DELETE" ||
+        command == "UPDATE" || command.substr(0, 4) == "DROP") {
+        return true;
+    }
+    return false;
+}

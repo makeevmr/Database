@@ -36,4 +36,6 @@ void updateColumnSize(const std::string &query,
 
 std::string getTableNameSelectQuery(const std::string &query);
 
+bool isAcceptableQuery(const std::string &command);
+
 #endif
