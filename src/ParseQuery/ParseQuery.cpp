@@ -195,7 +195,7 @@ void parseUpdateQuery(const std::string &query,
 
 void parseDropQuery(const std::string &query,
                     std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
-    std::string column_name;
+    std::string table_name;
     size_t query_index = 5;
     skipUntil(query, query_index, 'E');
     while (!std::isalnum(query[query_index]) && query[query_index] != '_') {
@@ -203,24 +203,24 @@ void parseDropQuery(const std::string &query,
     }
     --query_index;
     bool column_name_formed = false;
-    std::vector<std::string> column_names_array;
+    std::vector<std::string> table_names_array;
     unsigned char symbol;
     do {
         ++query_index;
         symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(query, column_name, column_name_formed, symbol);
-            if ((symbol == ',' || symbol == ';') && !column_name.empty()) {
-                column_names_array.push_back(column_name);
-                column_name = "";
+            pushBackColumnName(query, table_name, column_name_formed, symbol);
+            if ((symbol == ',' || symbol == ';') && !table_name.empty()) {
+                table_names_array.push_back(table_name);
+                table_name = "";
             }
         } else if (symbol == ',' || symbol == ';') {
-            column_names_array.push_back(column_name);
+            table_names_array.push_back(table_name);
             column_name_formed = false;
-            column_name = "";
+            table_name = "";
         }
     } while (symbol != ';');
-    for (const std::string &table_name : column_names_array) {
+    for (const std::string &table_name : table_names_array) {
         tables_map.erase(table_name);
     }
 }
@@ -244,3 +244,5 @@ void updateColumnSize(const std::string &query,
         // TODO throw exception later
     }
 }
+
+std::string getTableNameSelectQuery(const std::string &query) {}

@@ -67,19 +67,38 @@ int main(int argc, char *argv[]) {
                 }
                 /* "create, insert, update, select, drop"; */
                 if (!sql_query.empty() && (sql_query[0] == 'S' || sql_query[0] == 's')) {
+                    unsigned int oid = 0;
+                    {
+                        pqxx::nontransaction select_query(db_connection);
+                        pqxx::result data_from_query(select_query.exec(sql_query));
+                        oid = data_from_query.column_table(0);
+                    }
+                    std::string get_table_name = "SELECT relname FROM pg_class WHERE oid = " + std::to_string(oid);
+                    std::string table_name;
+                    {
+                        table_name = std::string(
+                            pqxx::result(pqxx::nontransaction(db_connection).exec(get_table_name))[0][0].c_str());
+                    }
                     pqxx::nontransaction select_query(db_connection);
                     pqxx::result data_from_query(select_query.exec(sql_query));
-                    unsigned int oid = data_from_query.column_table(0);
-                    std::string get_table_name = "SELECT relname FROM pg_class WHERE oid = " + std::to_string(oid);
-                    std::string table_name = std::string(
-                        pqxx::result(pqxx::nontransaction(db_connection).exec(get_table_name))[0][0].c_str());
                     viewTable(data_from_query, tables_map[table_name]);
+                    /* pqxx::nontransaction select_query(db_connection); */
+                    /* pqxx::result data_from_query(select_query.exec(sql_query)); */
+                    /* unsigned int oid = data_from_query.column_table(0); */
+                    /* std::string get_table_name = "SELECT relname FROM pg_class WHERE oid = " + std::to_string(oid); */
+                    /* std::string table_name = std::string( */
+                    /*     pqxx::result(pqxx::nontransaction(db_connection).exec(get_table_name))[0][0].c_str()); */
+                    /* viewTable(data_from_query, tables_map[table_name]); */
                     /* viewTable(data_from_query, tables_map["company"]); */
                 } else if (!sql_query.empty()) {
                     pqxx::work update_db_query(db_connection);
                     update_db_query.exec(sql_query);
                     update_db_query.commit();
                     updateColumnSize(sql_query, tables_map);
+                    /* std::string command = sql_query.substr(0, 6); */
+                    /* std::transform(command.begin(), command.end(), command.begin(), ::toupper); */
+                    /* if (command == "SELECT") { */
+                    /* } */
                 } else {
                     std::cout << "Empty SQL query";
                     // TODO throw error here on empty sql_query

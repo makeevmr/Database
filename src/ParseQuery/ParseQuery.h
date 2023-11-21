@@ -34,4 +34,6 @@ void parseDropQuery(const std::string &query,
 void updateColumnSize(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map);
 
+std::string getTableNameSelectQuery(const std::string &query);
+
 #endif
