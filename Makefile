@@ -1,17 +1,26 @@
+# Compilation flags
 CC=g++
-CFLAGS=-c -pedantic-errors -Wall -Wextra -std=c++20 
-LPQFLAGS=-lpqxx -lpq
+OPT=-O2
+CFLAGS=-c -pedantic-errors -Wall -Wextra -std=c++17 $(OPT)
+LDFLAGS=-lpqxx -lpq
+
+# Files
+BUILD_DIR=obj
 SOURCES=src/main.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=DataBase.o
+OBJECTS=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
+TARGET=DataBase
 
-all: $(SOURCES) $(EXECUTABLE)
+all: $(TARGET)
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LPQFLAGS) -o $@
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 
-.cpp.o:
+$(BUILD_DIR)/%.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@
 
+.PHONY: clean
+
 clean:
-	rm -rf *.o $(EXECUTABLE)
+	@find obj -type f -delete
+	@rm $(TARGET)
+

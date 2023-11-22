@@ -52,6 +52,9 @@ id      , age
 UPDATE 
 COMPANY SET (id, age, name) = (1232333, 1234, 'Eugene') WHERE id = 1;
 
+DELETE FROM 
+COMPANY WHERE id = 3;
+
 works fine
 SELECT *    
 FROM     
