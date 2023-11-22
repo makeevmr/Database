@@ -1,0 +1,5 @@
+#!/bin/bash
+mkdir obj
+mkdir obj/src/
+mkdir obj/src/ParseQuery
+mkdir obj/src/ViewTable
