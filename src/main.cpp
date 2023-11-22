@@ -1,6 +1,7 @@
 #include "Error.h"
 #include "ParseQuery/ParseQuery.h"
 #include "ViewTable/ViewTable.h"
+#include <limits>
 
 int main(int argc, char *argv[]) {
     std::string sql_query;
@@ -13,8 +14,10 @@ int main(int argc, char *argv[]) {
             while (true) {
                 try {
                     std::cout << ">> ";
-                    std::getline(std::cin, sql_query);
-                    if (sql_query == "exit") {
+                    std::getline(std::cin, sql_query, ';');
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    sql_query += ";";
+                    if (sql_query == "exit;") {
                         db_connection.disconnect();
                         break;
                     }
@@ -30,9 +33,9 @@ int main(int argc, char *argv[]) {
                     if (sql_query[0] == 'S' || sql_query[0] == 's') {
                         std::transform(sql_query.begin(), sql_query.end(), sql_query.begin(),
                                        [](unsigned char c) { return std::tolower(c); });
-                        std::string table_name = getTableNameSelectQuery(sql_query);
                         pqxx::nontransaction select_query(db_connection);
                         pqxx::result data_from_query(select_query.exec(sql_query));
+                        std::string table_name = getTableNameSelectQuery(sql_query);
                         viewTable(data_from_query, tables_map[table_name]);
                         // unsigned int oid = 0;
                         // {

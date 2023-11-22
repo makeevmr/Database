@@ -8,7 +8,7 @@ void skipUntil(const std::string &query, size_t &query_index, unsigned char symb
 }
 
 void skipSpaces(const std::string &query, size_t &query_index) {
-    while (query[query_index] == ' ') {
+    while (query[query_index] == ' ' || query[query_index] == '\t' || query[query_index] == '\n') {
         ++query_index;
     }
 }
@@ -22,13 +22,14 @@ void pushBackColumnName(const std::string &query, std::string &column_name, bool
             column_name.push_back(symbol);
         }
     }
-    if (symbol == ' ' && !column_name.empty()) {
+    if ((symbol == ' ' || symbol == '\t' || symbol == '\n') && !column_name.empty()) {
         column_name_formed = true;
     }
 }
 
 void parseTableName(const std::string &query, std::string &table_name, size_t &query_index) {
-    while (query[query_index] != '(' && query[query_index] != ' ') {
+    while (query[query_index] != '(' && query[query_index] != ' ' && query[query_index] != '\t' &&
+           query[query_index] != '\n') {
         if (std::isupper(query[query_index])) {
             table_name.push_back(query[query_index] + 32);
         } else {
@@ -61,9 +62,9 @@ void parseValues(const std::string &query, const std::string &table_name, std::v
                 } else {
                     ++current_length;
                 }
-            } else if (symbol != ',' && symbol != ' ' && symbol != ')') {
+            } else if (symbol != ',' && symbol != ' ' && symbol != ')' && symbol != '\t' && symbol != '\n') {
                 ++current_length;
-            } else if (symbol == ' ' && current_length > 0) {
+            } else if ((symbol == ' ' || symbol == '\t' || symbol == '\n') && current_length > 0) {
                 value_formed = true;
                 if (column_names_index + 2 == column_names_size) {
                     if (tables_map[table_name][column_names_array[column_names_index]] < current_length) {
@@ -165,7 +166,8 @@ void parseUpdateQuery(const std::string &query,
     skipSpaces(query, query_index);
     parseTableName(query, table_name, query_index);
     skipUntil(query, query_index, 'T');
-    while (query[query_index + 1] == ' ' || query[query_index + 1] == '(') {
+    while (query[query_index + 1] == ' ' || query[query_index + 1] == '(' || query[query_index + 1] == '\t' ||
+           query[query_index] == '\n') {
         ++query_index;
     }
     bool column_name_formed = false;
@@ -242,7 +244,7 @@ std::string getTableNameSelectQuery(const std::string &query) {
     std::string table_name;
     size_t query_index = query.find("from");
     query_index += 4;
-    while (query[query_index] == ' ') {
+    while (query[query_index] == ' ' || query[query_index] == '\t' || query[query_index] == '\n') {
         ++query_index;
     }
     while (std::isalnum(query[query_index]) || query[query_index] == '_') {
