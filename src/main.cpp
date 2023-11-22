@@ -3,7 +3,7 @@
 #include "ViewTable/ViewTable.h"
 #include <limits>
 
-int main(int argc, char *argv[]) {
+int main() {
     std::string sql_query;
     std::unordered_map<std::string, std::unordered_map<std::string, size_t>> tables_map;
     try {
@@ -37,18 +37,6 @@ int main(int argc, char *argv[]) {
                         pqxx::result data_from_query(select_query.exec(sql_query));
                         std::string table_name = getTableNameSelectQuery(sql_query);
                         viewTable(data_from_query, tables_map[table_name]);
-                        // unsigned int oid = 0;
-                        // {
-                        //     pqxx::nontransaction select_query(db_connection);
-                        //     pqxx::result data_from_query(select_query.exec(sql_query));
-                        //     oid = data_from_query.column_table(0);
-                        // }
-                        // std::string get_table_name = "SELECT relname FROM pg_class WHERE oid = " +
-                        // std::to_string(oid); std::string table_name;
-                        // {
-                        //     table_name = std::string(
-                        //         pqxx::result(pqxx::nontransaction(db_connection).exec(get_table_name))[0][0].c_str());
-                        // }
                     } else {
                         pqxx::work update_db_query(db_connection);
                         update_db_query.exec(sql_query);

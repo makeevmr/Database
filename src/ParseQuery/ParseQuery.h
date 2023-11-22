@@ -10,8 +10,7 @@ void skipUntil(const std::string &query, size_t &query_index, unsigned char symb
 
 void skipSpaces(const std::string &query, size_t &query_index);
 
-void pushBackColumnName(const std::string &query, std::string &column_name, bool &column_name_formed,
-                        unsigned char symbol);
+void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol);
 
 void parseTableName(const std::string &query, std::string &table_name, size_t &query_index);
 

@@ -3,7 +3,6 @@
 void viewTable(const pqxx::result &res, const std::unordered_map<std::string, size_t> &column_map) {
     unsigned int rows_num = res.size();
     unsigned int cols_num = res.columns();
-    unsigned int spaces_amount;
     for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
         const std::string str_col_name = std::string(res.column_name(col_index));
         std::cout << std::left << std::setfill(' ') << std::setw(column_map.at(str_col_name) + 1) << str_col_name;

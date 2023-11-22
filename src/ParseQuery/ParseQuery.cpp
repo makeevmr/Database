@@ -13,8 +13,7 @@ void skipSpaces(const std::string &query, size_t &query_index) {
     }
 }
 
-void pushBackColumnName(const std::string &query, std::string &column_name, bool &column_name_formed,
-                        unsigned char symbol) {
+void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol) {
     if (std::isalnum(symbol) || symbol == '_') {
         if (std::isupper(symbol)) {
             column_name.push_back(symbol + 32);
@@ -104,7 +103,7 @@ void parseCreateQuery(const std::string &query,
     for (; query_index < query_size; ++query_index) {
         unsigned char symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(query, column_name, column_name_formed, symbol);
+            pushBackColumnName(column_name, column_name_formed, symbol);
         } else if (symbol == ',' || symbol == ';') {
             tables_map[table_name][column_name] = column_name.size();
             column_name_formed = false;
@@ -130,7 +129,7 @@ void parseInsertQuery(const std::string &query,
         ++query_index;
         symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(query, column_name, column_name_formed, symbol);
+            pushBackColumnName(column_name, column_name_formed, symbol);
             if ((symbol == ',' || symbol == ')') && !column_name.empty()) {
                 column_names_array.push_back(column_name);
                 column_name = "";
@@ -177,7 +176,7 @@ void parseUpdateQuery(const std::string &query,
         ++query_index;
         symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(query, column_name, column_name_formed, symbol);
+            pushBackColumnName(column_name, column_name_formed, symbol);
             if ((symbol == ',' || symbol == ')' || symbol == '=') && !column_name.empty()) {
                 column_names_array.push_back(column_name);
                 column_name = "";
@@ -211,7 +210,7 @@ void parseDropQuery(const std::string &query,
         ++query_index;
         symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(query, table_name, column_name_formed, symbol);
+            pushBackColumnName(table_name, column_name_formed, symbol);
             if ((symbol == ',' || symbol == ';') && !table_name.empty()) {
                 table_names_array.push_back(table_name);
                 table_name = "";

@@ -1,13 +1,17 @@
 CC=g++
-CFLAGS=-pedantic-errors -g -lpqxx -lpq
-SOURCES_EXECUTABLE1=src/main.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp
+CFLAGS=-c -pedantic-errors -Wall -Wextra -std=c++20 
+LPQFLAGS=-lpqxx -lpq
+SOURCES=src/main.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=DataBase.o
 
-all: main.o
+all: $(SOURCES) $(EXECUTABLE)
 
-main.o:
-	$(CC) $(SOURCES_EXECUTABLE1) $(CFLAGS) -o $@
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) $(LPQFLAGS) -o $@
 
-.PHONY: clean
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f *.o
+	rm -rf *.o $(EXECUTABLE)
