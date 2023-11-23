@@ -1,19 +1,19 @@
 #include "ParseQuery.h"
 
-void skipUntil(const std::string &query, size_t &query_index, unsigned char symbol) {
+inline void skipUntil(const std::string &query, size_t &query_index, unsigned char symbol) {
     while (query[query_index] != symbol && query[query_index] != (symbol + 32)) {
         ++query_index;
     }
     ++query_index;
 }
 
-void skipSpaces(const std::string &query, size_t &query_index) {
+inline void skipSpaces(const std::string &query, size_t &query_index) {
     while (query[query_index] == ' ' || query[query_index] == '\t' || query[query_index] == '\n') {
         ++query_index;
     }
 }
 
-void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol) {
+inline void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol) {
     if (std::isalnum(symbol) || symbol == '_') {
         if (std::isupper(symbol)) {
             column_name.push_back(symbol + 32);
@@ -26,7 +26,7 @@ void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsi
     }
 }
 
-void parseTableName(const std::string &query, std::string &table_name, size_t &query_index) {
+inline void parseTableName(const std::string &query, std::string &table_name, size_t &query_index) {
     while (query[query_index] != '(' && query[query_index] != ' ' && query[query_index] != '\t' &&
            query[query_index] != '\n') {
         if (std::isupper(query[query_index])) {
@@ -38,9 +38,10 @@ void parseTableName(const std::string &query, std::string &table_name, size_t &q
     }
 }
 
-void parseValues(const std::string &query, const std::string &table_name, std::vector<std::string> &column_names_array,
-                 std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
-                 size_t &query_index) {
+inline void parseValues(const std::string &query, const std::string &table_name,
+                        std::vector<std::string> &column_names_array,
+                        std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
+                        size_t &query_index) {
     unsigned char symbol;
     bool value_formed = false;
     bool in_single_quote = false;

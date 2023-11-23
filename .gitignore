@@ -1,3 +1,5 @@
 *.o
 .vscode
 DataBase
+main
+config/TablesMap.json

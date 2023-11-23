@@ -1,0 +1,13 @@
+{
+    "company": {
+        "id": 5,
+        "name": 5,
+        "age": 7,
+        "address": 10,
+        "salary": 15
+    },
+    "users": {
+        "height": 18,
+        "weight": 20
+    }
+}

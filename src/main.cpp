@@ -1,14 +1,21 @@
 #include "Error.h"
+#include "JsonHandle/JsonHandle.h"
 #include "ParseQuery/ParseQuery.h"
 #include "ViewTable/ViewTable.h"
 
 int main() {
+    bool is_db_modified = false;
     std::string sql_query;
     std::unordered_map<std::string, std::unordered_map<std::string, size_t>> tables_map;
     try {
         pqxx::connection db_connection(
             "dbname = makeevmr user = makeevmr password = Cirjkf281 hostaddr = 127.0.0.1 port = 5432");
         if (db_connection.is_open()) {
+            std::ifstream input_json("config/TablesMap.json");
+            if (input_json.is_open()) {
+                readTablesMapFromJson(input_json, tables_map);
+            }
+            input_json.close();
             std::cout << "Opened database successfully: " << db_connection.dbname() << std::endl;
             while (true) {
                 try {
@@ -17,6 +24,13 @@ int main() {
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                     sql_query += ";";
                     if (sql_query == "exit;") {
+                        if (is_db_modified) {
+                            std::ofstream output_json("config/TablesMap.json");
+                            if (output_json.is_open()) {
+                                writeTablesMapToJson(output_json, tables_map);
+                            }
+                            output_json.close();
+                        }
                         db_connection.disconnect();
                         break;
                     }
@@ -37,6 +51,7 @@ int main() {
                         std::string table_name = getTableNameSelectQuery(sql_query);
                         viewTable(data_from_query, tables_map[table_name]);
                     } else {
+                        is_db_modified = true;
                         pqxx::work update_db_query(db_connection);
                         update_db_query.exec(sql_query);
                         update_db_query.commit();
@@ -50,11 +65,18 @@ int main() {
                 }
             }
         } else {
-            // TODO maybe throw error later;
-            std::cout << "Can't open database" << std::endl;
+            std::cout << "Can't open database. Check the correctness of the arguments: dbname, user, password"
+                      << std::endl;
             return 1;
         }
     } catch (const std::exception &e) {
+        if (is_db_modified) {
+            std::ofstream output_json("config/TablesMap.json");
+            if (output_json.is_open()) {
+                writeTablesMapToJson(output_json, tables_map);
+            }
+            output_json.close();
+        }
         std::cout << e.what() << std::endl;
         return 1;
     }

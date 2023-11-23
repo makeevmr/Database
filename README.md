@@ -14,5 +14,4 @@ Debian-Based Linux:
     ```
     sudo apt-get update -y
     sudo apt-get install -y libpqxx-dev
-    sudo apt-get install -y nlohmann-json3-dev
     ```

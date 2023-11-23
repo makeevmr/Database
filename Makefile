@@ -6,7 +6,7 @@ LDFLAGS=-lpqxx -lpq
 
 # Files
 BUILD_DIR=obj
-SOURCES=src/main.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp
+SOURCES=src/main.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp src/JsonHandle/JsonHandle.cpp
 OBJECTS=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
 TARGET=DataBase
 

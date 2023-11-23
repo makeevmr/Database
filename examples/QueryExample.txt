@@ -8,10 +8,32 @@ CREATE TABLE COMPANY(
 INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY) VALUES
 (1, 'Paul', 32, 'California', 20000.00 ),
 (2, 'Allen', 25, 'Texas', 15000.00 ),
-(3, 'Teddy'   ,   23,   'Norway', 20000.00 ),
-(4,   'Mark', 25, 'Rich-Mond ', 65000.00 );
+(3, 'Teddy', 23, 'Norway', 20000.00 ),
+(4, 'Mark', 25, 'Rich-Mond ', 65000.00 );
 
 SELECT * FROM COMPANY;
+
+UPDATE COMPANY SET (id, age, name) = (1232333, 1234, 'Eugene') WHERE id = 1;
+
+DELETE FROM COMPANY WHERE id = 3;
+
+SELECT id, name FROM COMPANY;
+
+CREATE TABLE accounts (
+	user_id serial PRIMARY KEY,
+	username VARCHAR ( 50 ) UNIQUE NOT NULL,
+	password VARCHAR ( 50 ) NOT NULL,
+	email VARCHAR ( 255 ) UNIQUE NOT NULL
+);
+
+INSERT INTO accounts (user_id, username, password, email) VALUES
+(1, 'Nik', 'QQrty', 'mail@gmai.com1'),
+(2, 'Alice', '1223', 'mail@gmai.com2'),
+(3, 'Eugene', '342', 'mail@gmai.com3'),
+(4, 'Daniil', 'AVC', 'mail@gmai.com4');
+
+SELECT * FROM accounts;
+
 
 CREATE TABLE   COMPANY  
      (
@@ -49,19 +71,16 @@ id      , age
 , 1234      
 , 'Eugene') WHERE id = 1;
 
-UPDATE 
-COMPANY SET (id, age, name) = (1232333, 1234, 'Eugene') WHERE id = 1;
 
 DELETE FROM 
 COMPANY WHERE id = 3;
 
-works fine
 SELECT *    
 FROM     
 COMPANY;
 
-CAUSE EXCEPTION (handled)
+CAUSE EXCEPTION UnsupportedQueryError(handled)
 ALTER TABLE COMPANY ADD COLUMN destination varchar(30);
 
-CAUSE EXCEPTION (unhandled)
+CAUSE EXCEPTION (handled only on external level)
 SELECT id, nameq FROM COMPANY;

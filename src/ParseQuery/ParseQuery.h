@@ -6,15 +6,15 @@
 #include <unordered_map>
 #include <vector>
 
-void skipUntil(const std::string &query, size_t &query_index, unsigned char symbol);
+inline void skipUntil(const std::string &query, size_t &query_index, unsigned char symbol);
 
-void skipSpaces(const std::string &query, size_t &query_index);
+inline void skipSpaces(const std::string &query, size_t &query_index);
 
-void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol);
+inline void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol);
 
-void parseTableName(const std::string &query, std::string &table_name, size_t &query_index);
+inline void parseTableName(const std::string &query, std::string &table_name, size_t &query_index);
 
-void parseValues(const std::string &query, const std::string &table_name, std::vector<std::string> &column_names_array,
+inline void parseValues(const std::string &query, const std::string &table_name, std::vector<std::string> &column_names_array,
                  std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
                  size_t &query_index);
 

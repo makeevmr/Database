@@ -5,7 +5,7 @@ void viewTable(const pqxx::result &res, const std::unordered_map<std::string, si
     unsigned int cols_num = res.columns();
     for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
         const std::string str_col_name = std::string(res.column_name(col_index));
-        std::cout << std::left << std::setfill(' ') << std::setw(column_map.at(str_col_name) + 1) << str_col_name;
+        std::cout << std::left << std::setfill(' ') << std::setw(column_map.at(str_col_name) + 3) << str_col_name;
         if (col_index != cols_num - 1) {
             std::cout << '|';
         } else {
@@ -14,7 +14,7 @@ void viewTable(const pqxx::result &res, const std::unordered_map<std::string, si
     }
     for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
         const std::string str_col_name = std::string(res.column_name(col_index));
-        std::cout << std::string(column_map.at(str_col_name) + 1, '-');
+        std::cout << std::string(column_map.at(str_col_name) + 3, '-');
         if (col_index != cols_num - 1) {
             std::cout << '+';
         } else {
@@ -24,7 +24,7 @@ void viewTable(const pqxx::result &res, const std::unordered_map<std::string, si
     for (unsigned int row_index = 0; row_index < rows_num; ++row_index) {
         for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
             const std::string str_col_name = std::string(res.column_name(col_index));
-            size_t column_size = column_map.at(str_col_name) + 1;
+            size_t column_size = column_map.at(str_col_name) + 3;
             const char *cstr_value = res[row_index][col_index].c_str();
             std::string str_value;
             if (strlen(cstr_value) < column_size) {
