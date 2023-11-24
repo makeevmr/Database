@@ -103,3 +103,45 @@ void readTablesMapFromJson(std::ifstream &input_json,
         }
     }
 }
+
+void readConfigMapFromJson(std::ifstream &input_json, std::unordered_map<std::string, std::string> &config_map) {
+    bool is_key_set = false;
+    std::string key;
+    std::string value;
+    unsigned char current_symbol = 0;
+    while (input_json.peek() != EOF) {
+        current_symbol = static_cast<unsigned char>(input_json.get());
+        while (!is_key_set) {
+            while (current_symbol != '"' && input_json.peek() != EOF) {
+                current_symbol = static_cast<unsigned char>(input_json.get());
+            }
+            if (current_symbol == '"') {
+                current_symbol = static_cast<unsigned char>(input_json.get());
+                while (current_symbol != '"') {
+                    key.push_back(current_symbol);
+                    current_symbol = static_cast<unsigned char>(input_json.get());
+                }
+                is_key_set = true;
+            } else {
+                break;
+            }
+        }
+        if (!is_key_set) {
+            break;
+        } else {
+            current_symbol = static_cast<unsigned char>(input_json.get());
+            while (current_symbol != '"') {
+                current_symbol = static_cast<unsigned char>(input_json.get());
+            }
+            current_symbol = static_cast<unsigned char>(input_json.get());
+            while (current_symbol != '"') {
+                value.push_back(current_symbol);
+                current_symbol = static_cast<unsigned char>(input_json.get());
+            }
+            config_map[key] = std::move(value);
+            is_key_set = false;
+            key = "";
+            value = "";
+        }
+    }
+}

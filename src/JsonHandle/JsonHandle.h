@@ -12,4 +12,6 @@ void writeTablesMapToJson(std::ofstream &output_json,
 void readTablesMapFromJson(std::ifstream &input_json,
                            std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map);
 
-#endif
+void readConfigMapFromJson(std::ifstream &input_json, std::unordered_map<std::string, std::string> &config_map);
+
+#endif // DATABASE_JSON_HANDLE

@@ -9,4 +9,4 @@
 
 void viewTable(const pqxx::result &res, const std::unordered_map<std::string, size_t> &column_map);
 
-#endif
+#endif // DATABASE_VIEW_TABLE

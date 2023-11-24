@@ -14,9 +14,10 @@ inline void pushBackColumnName(std::string &column_name, bool &column_name_forme
 
 inline void parseTableName(const std::string &query, std::string &table_name, size_t &query_index);
 
-inline void parseValues(const std::string &query, const std::string &table_name, std::vector<std::string> &column_names_array,
-                 std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
-                 size_t &query_index);
+inline void parseValues(const std::string &query, const std::string &table_name,
+                        std::vector<std::string> &column_names_array,
+                        std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
+                        size_t &query_index);
 
 void parseCreateQuery(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map);
@@ -37,4 +38,4 @@ std::string getTableNameSelectQuery(const std::string &query);
 
 bool isAcceptableQuery(const std::string &command);
 
-#endif
+#endif // DATABASE_PARSE_QUERY

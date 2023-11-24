@@ -5,5 +5,5 @@ mkdir obj/src/
 mkdir obj/src/ParseQuery
 mkdir obj/src/ViewTable
 mkdir obj/src/JsonHandle
-mkdir config
+mkdir obj/src/LoadDB
 touch config/TablesMap.json

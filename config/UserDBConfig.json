@@ -1,0 +1,7 @@
+{
+    "dbname": "user_db",
+    "user": "user_db",
+    "password": "Mustache",
+    "hostaddr": "127.0.0.1",
+    "post": "5432"
+}
