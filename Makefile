@@ -4,16 +4,24 @@ OPT=-O2
 CFLAGS=-c -pedantic-errors -Wall -Wextra -std=c++17 $(OPT)
 LDFLAGS=-lpqxx -lpq
 
-# Files
+# Files for DataBase
 BUILD_DIR=obj
-SOURCES=src/main.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp src/LoadDB/LoadDB.cpp src/JsonHandle/JsonHandle.cpp
-OBJECTS=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES))
-TARGET=DataBase
+SOURCES_DB=src/main.cpp src/Authorization/Authorization.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp src/LoadDB/LoadDB.cpp src/JsonHandle/JsonHandle.cpp
+OBJECTS_DB=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES_DB))
+TARGET_DB=DataBase
 
-all: $(TARGET)
+# Files for AddFirstUser
+SOURCES_AFU=src/AddFirstUser.cpp src/LoadDB/LoadDB.cpp src/JsonHandle/JsonHandle.cpp
+OBJECTS_AFU=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES_AFU))
+TARGET_AFU=AddFirstUser
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+all: $(TARGET_DB) $(TARGET_AFU)
+
+$(TARGET_DB): $(OBJECTS_DB)
+	$(CC) $(OBJECTS_DB) $(LDFLAGS) -o $@
+
+$(TARGET_AFU): $(OBJECTS_AFU)
+	$(CC) $(OBJECTS_AFU) $(LDFLAGS) -o $@
 
 $(BUILD_DIR)/%.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@
@@ -22,5 +30,6 @@ $(BUILD_DIR)/%.o: %.cpp
 
 clean:
 	@find obj -type f -delete
-	@rm $(TARGET)
+	@rm $(TARGET_DB)
+	@rm $(TARGET_AFU)
 

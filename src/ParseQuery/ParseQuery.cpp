@@ -90,6 +90,31 @@ inline void parseValues(const std::string &query, const std::string &table_name,
     } while (column_names_index < column_names_size);
 }
 
+inline void parseSequence(const std::string &query, size_t &query_index, std::vector<std::string> &names_array) {
+    std::string name;
+    while (!std::isalnum(query[query_index]) && query[query_index] != '_') {
+        ++query_index;
+    }
+    --query_index;
+    bool name_formed = false;
+    unsigned char symbol;
+    do {
+        ++query_index;
+        symbol = query[query_index];
+        if (!name_formed) {
+            pushBackColumnName(name, name_formed, symbol);
+            if ((symbol == ',' || symbol == ';') && !name.empty()) {
+                names_array.push_back(std::move(name));
+                name = "";
+            }
+        } else if (symbol == ',' || symbol == ';') {
+            names_array.push_back(std::move(name));
+            name_formed = false;
+            name = "";
+        }
+    } while (symbol != ';');
+}
+
 void parseCreateQuery(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
     std::string column_name;
@@ -132,11 +157,11 @@ void parseInsertQuery(const std::string &query,
         if (!column_name_formed) {
             pushBackColumnName(column_name, column_name_formed, symbol);
             if ((symbol == ',' || symbol == ')') && !column_name.empty()) {
-                column_names_array.push_back(column_name);
+                column_names_array.push_back(std::move(column_name));
                 column_name = "";
             }
         } else if (symbol == ',' || symbol == ')') {
-            column_names_array.push_back(column_name);
+            column_names_array.push_back(std::move(column_name));
             column_name_formed = false;
             column_name = "";
         }
@@ -179,11 +204,11 @@ void parseUpdateQuery(const std::string &query,
         if (!column_name_formed) {
             pushBackColumnName(column_name, column_name_formed, symbol);
             if ((symbol == ',' || symbol == ')' || symbol == '=') && !column_name.empty()) {
-                column_names_array.push_back(column_name);
+                column_names_array.push_back(std::move(column_name));
                 column_name = "";
             }
         } else if (symbol == ',' || symbol == ')' || symbol == '=') {
-            column_names_array.push_back(column_name);
+            column_names_array.push_back(std::move(column_name));
             column_name_formed = false;
             column_name = "";
         }
@@ -197,31 +222,10 @@ void parseUpdateQuery(const std::string &query,
 
 void parseDropQuery(const std::string &query,
                     std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
-    std::string table_name;
     size_t query_index = 5;
     skipUntil(query, query_index, 'E');
-    while (!std::isalnum(query[query_index]) && query[query_index] != '_') {
-        ++query_index;
-    }
-    --query_index;
-    bool column_name_formed = false;
     std::vector<std::string> table_names_array;
-    unsigned char symbol;
-    do {
-        ++query_index;
-        symbol = query[query_index];
-        if (!column_name_formed) {
-            pushBackColumnName(table_name, column_name_formed, symbol);
-            if ((symbol == ',' || symbol == ';') && !table_name.empty()) {
-                table_names_array.push_back(table_name);
-                table_name = "";
-            }
-        } else if (symbol == ',' || symbol == ';') {
-            table_names_array.push_back(table_name);
-            column_name_formed = false;
-            table_name = "";
-        }
-    } while (symbol != ';');
+    parseSequence(query, query_index, table_names_array);
     for (const std::string &table_name : table_names_array) {
         tables_map.erase(table_name);
     }
@@ -254,9 +258,14 @@ std::string getTableNameSelectQuery(const std::string &query) {
     return table_name;
 }
 
+void parseUsers(const std::string &query, std::vector<std::string> &username_array) {
+    size_t query_index = 7;
+    parseSequence(query, query_index, username_array);
+}
+
 bool isAcceptableQuery(const std::string &command) {
     if (command == "SELECT" || command == "CREATE" || command == "INSERT" || command == "DELETE" ||
-        command == "UPDATE" || command.substr(0, 4) == "DROP") {
+        command == "UPDATE" || command == "ACCESS" || command.substr(0, 4) == "DROP") {
         return true;
     }
     return false;

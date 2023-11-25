@@ -6,4 +6,7 @@ mkdir obj/src/ParseQuery
 mkdir obj/src/ViewTable
 mkdir obj/src/JsonHandle
 mkdir obj/src/LoadDB
+mkdir obj/src/Authorization
+mkdir log/
+touch log/LogFile.txt
 touch config/TablesMap.json

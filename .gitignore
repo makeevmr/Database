@@ -1,5 +1,7 @@
 *.o
 .vscode
 DataBase
+AddFirstUser
 main
 config/TablesMap.json
+log/LogFile.txt

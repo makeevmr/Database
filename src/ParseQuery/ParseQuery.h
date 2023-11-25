@@ -19,6 +19,8 @@ inline void parseValues(const std::string &query, const std::string &table_name,
                         std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
                         size_t &query_index);
 
+inline void parseSequence(const std::string &query, size_t &query_index, std::vector<std::string> &names_array);
+
 void parseCreateQuery(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map);
 
@@ -35,6 +37,8 @@ void updateColumnSize(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map);
 
 std::string getTableNameSelectQuery(const std::string &query);
+
+void parseUsers(const std::string &query, std::vector<std::string> &username_array);
 
 bool isAcceptableQuery(const std::string &command);
 
