@@ -2,6 +2,6 @@
 .vscode
 DataBase
 AddFirstUser
-main
+ServerDataBase
 config/TablesMap.json
 log/LogFile.txt

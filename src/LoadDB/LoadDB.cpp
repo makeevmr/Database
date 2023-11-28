@@ -18,13 +18,13 @@ void loadConfig(std::ifstream &input_config, std::unordered_map<std::string, std
     } else {
         switch (file_to_open) {
         case 1:
-            throw UnopenableFileError(std::string("Error. Can't open file: ") + std::string(MAIN_DB_CONFIG_PATH));
+            throw UnopenableFileError(std::string("Error. Couldn't open file: ") + std::string(MAIN_DB_CONFIG_PATH));
             break;
         case 2:
-            throw UnopenableFileError(std::string("Error. Can't open file: ") + std::string(USER_DB_CONFIG_PATH));
+            throw UnopenableFileError(std::string("Error. Couldn't open file: ") + std::string(USER_DB_CONFIG_PATH));
             break;
         case 3:
-            throw UnopenableFileError(std::string("Error. Can't open file: ") +
+            throw UnopenableFileError(std::string("Error. Couldn't open file: ") +
                                       std::string(ADD_FIRST_USER_CONFIG_PATH));
         }
     }

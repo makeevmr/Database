@@ -42,6 +42,22 @@ public:
     virtual const char *what() const noexcept override { return std::runtime_error::what(); }
 };
 
+class UnopenableSocketError : public std::exception {
+    virtual const char *what() const noexcept override { return "Error. Couldn't open socket"; }
+};
+
+class BindSocketError : public std::exception {
+    virtual const char *what() const noexcept override { return "Error. Couldn't bind socket to internet address"; }
+};
+
+class AcceptFuncError : public std::exception {
+    virtual const char *what() const noexcept override { return "Error. Couldn't execute accept function"; }
+};
+
+class ReadFromSocketError : public std::exception {
+    virtual const char *what() const noexcept override { return "Error. Couldn't read from socket"; }
+};
+
 class LoginDataBaseError : public std::exception {
 public:
     virtual const char *what() const noexcept override { return "Non-existent user or password"; }

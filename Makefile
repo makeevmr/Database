@@ -6,9 +6,9 @@ LDFLAGS=-lpqxx -lpq
 
 # Files for DataBase
 BUILD_DIR=obj
-SOURCES_DB=src/main.cpp src/Authorization/Authorization.cpp src/ParseQuery/ParseQuery.cpp src/ViewTable/ViewTable.cpp src/LoadDB/LoadDB.cpp src/JsonHandle/JsonHandle.cpp
+SOURCES_DB=src/ServerDataBase.cpp src/Authorization/Authorization.cpp src/ParseQuery/ParseQuery.cpp src/ParseTableToStr/ParseTableToStr.cpp src/LoadDB/LoadDB.cpp src/JsonHandle/JsonHandle.cpp
 OBJECTS_DB=$(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SOURCES_DB))
-TARGET_DB=DataBase
+TARGET_DB=ServerDataBase
 
 # Files for AddFirstUser
 SOURCES_AFU=src/AddFirstUser.cpp src/LoadDB/LoadDB.cpp src/JsonHandle/JsonHandle.cpp

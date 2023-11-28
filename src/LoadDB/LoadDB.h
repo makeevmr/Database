@@ -5,10 +5,6 @@
 #define USER_DB_CONFIG_PATH "config/UserDBConfig.json"
 #define ADD_FIRST_USER_CONFIG_PATH "config/AddFirstUserConfig.json"
 
-// #define MAIN_DB_CONFIG_PATH "../config/MainDBConfig.json"
-// #define USER_DB_CONFIG_PATH "../config/UserDBConfig.json"
-// #define ADD_FIRST_USER_CONFIG_PATH "../config/AddFirstUserConfig.json"
-
 #include "../Error.h"
 #include "../JsonHandle/JsonHandle.h"
 

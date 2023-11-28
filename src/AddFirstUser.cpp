@@ -25,7 +25,7 @@ int main() {
             update_db_query.exec(sql_query);
             update_db_query.commit();
         } else {
-            throw UnopenableDataBaseError(std::string("Cant't open database: ") +
+            throw UnopenableDataBaseError(std::string("Couldn't open database: ") +
                                           std::string(user_db_connection.dbname()));
         }
     } catch (const std::exception &e) {

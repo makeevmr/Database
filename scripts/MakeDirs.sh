@@ -3,7 +3,7 @@ cd ../
 mkdir obj
 mkdir obj/src/
 mkdir obj/src/ParseQuery
-mkdir obj/src/ViewTable
+mkdir obj/src/ParseTableToStr
 mkdir obj/src/JsonHandle
 mkdir obj/src/LoadDB
 mkdir obj/src/Authorization
