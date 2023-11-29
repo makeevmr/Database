@@ -13,10 +13,14 @@ inline void skipSpaces(const std::string &query, size_t &query_index) {
     }
 }
 
-inline void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol) {
+inline void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol, bool modify) {
     if (std::isalnum(symbol) || symbol == '_') {
-        if (std::isupper(symbol)) {
-            column_name.push_back(symbol + 32);
+        if (modify) {
+            if (std::isupper(symbol)) {
+                column_name.push_back(symbol + 32);
+            } else {
+                column_name.push_back(symbol);
+            }
         } else {
             column_name.push_back(symbol);
         }
@@ -90,7 +94,8 @@ inline void parseValues(const std::string &query, const std::string &table_name,
     } while (column_names_index < column_names_size);
 }
 
-inline void parseSequence(const std::string &query, size_t &query_index, std::vector<std::string> &names_array) {
+inline void parseSequence(const std::string &query, size_t &query_index, std::vector<std::string> &names_array,
+                          bool modify) {
     std::string name;
     while (!std::isalnum(query[query_index]) && query[query_index] != '_') {
         ++query_index;
@@ -102,7 +107,7 @@ inline void parseSequence(const std::string &query, size_t &query_index, std::ve
         ++query_index;
         symbol = query[query_index];
         if (!name_formed) {
-            pushBackColumnName(name, name_formed, symbol);
+            pushBackColumnName(name, name_formed, symbol, modify);
             if ((symbol == ',' || symbol == ';') && !name.empty()) {
                 names_array.push_back(std::move(name));
                 name = "";
@@ -129,7 +134,7 @@ void parseCreateQuery(const std::string &query,
     for (; query_index < query_size; ++query_index) {
         unsigned char symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(column_name, column_name_formed, symbol);
+            pushBackColumnName(column_name, column_name_formed, symbol, true);
         } else if (symbol == ',' || symbol == ';') {
             tables_map[table_name][column_name] = column_name.size();
             column_name_formed = false;
@@ -155,7 +160,7 @@ void parseInsertQuery(const std::string &query,
         ++query_index;
         symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(column_name, column_name_formed, symbol);
+            pushBackColumnName(column_name, column_name_formed, symbol, true);
             if ((symbol == ',' || symbol == ')') && !column_name.empty()) {
                 column_names_array.push_back(std::move(column_name));
                 column_name = "";
@@ -202,7 +207,7 @@ void parseUpdateQuery(const std::string &query,
         ++query_index;
         symbol = query[query_index];
         if (!column_name_formed) {
-            pushBackColumnName(column_name, column_name_formed, symbol);
+            pushBackColumnName(column_name, column_name_formed, symbol, true);
             if ((symbol == ',' || symbol == ')' || symbol == '=') && !column_name.empty()) {
                 column_names_array.push_back(std::move(column_name));
                 column_name = "";
@@ -225,7 +230,7 @@ void parseDropQuery(const std::string &query,
     size_t query_index = 5;
     skipUntil(query, query_index, 'E');
     std::vector<std::string> table_names_array;
-    parseSequence(query, query_index, table_names_array);
+    parseSequence(query, query_index, table_names_array, true);
     for (const std::string &table_name : table_names_array) {
         tables_map.erase(table_name);
     }
@@ -245,14 +250,28 @@ void updateColumnSize(const std::string &query,
 }
 
 std::string getTableNameSelectQuery(const std::string &query) {
-    std::string table_name;
-    size_t query_index = query.find("from");
-    query_index += 4;
-    while (query[query_index] == ' ' || query[query_index] == '\t' || query[query_index] == '\n') {
+    char word_to_find[5] = "FROM";
+    int match_index = 0;
+    size_t query_index = 6;
+    while (match_index != 4) {
+        if ((query[query_index] == word_to_find[match_index]) ||
+            (query[query_index] == (word_to_find[match_index] + 32))) {
+            ++match_index;
+        } else {
+            match_index = 0;
+        }
         ++query_index;
     }
+    while (!std::isalnum(query[query_index]) && query[query_index] != '_') {
+        ++query_index;
+    }
+    std::string table_name;
     while (std::isalnum(query[query_index]) || query[query_index] == '_') {
-        table_name.push_back(query[query_index]);
+        if (std::isupper(query[query_index])) {
+            table_name.push_back(query[query_index] + 32);
+        } else {
+            table_name.push_back(query[query_index]);
+        }
         ++query_index;
     }
     return table_name;
@@ -260,7 +279,7 @@ std::string getTableNameSelectQuery(const std::string &query) {
 
 void parseUsers(const std::string &query, std::vector<std::string> &username_array) {
     size_t query_index = 7;
-    parseSequence(query, query_index, username_array);
+    parseSequence(query, query_index, username_array, false);
 }
 
 bool isAcceptableQuery(const std::string &command) {

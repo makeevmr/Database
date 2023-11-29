@@ -11,7 +11,8 @@ void setDelimiter(unsigned char *response, size_t &response_index, unsigned int 
 }
 
 unsigned char *parseTableToStr(const pqxx::result &query_res, const std::unordered_map<std::string, size_t> &column_map,
-                               unsigned char *response, size_t &response_index, size_t &response_size) {
+                               unsigned char *response, size_t &response_index, size_t &response_size,
+                               int &resize_count) {
     unsigned int rows_num = query_res.size();
     unsigned int cols_num = query_res.columns();
     std::vector<size_t> column_sizes_array;
@@ -23,6 +24,8 @@ unsigned char *parseTableToStr(const pqxx::result &query_res, const std::unorder
         total_row_size += total_column_size + 1;
         size_t current_column_size = strlen(column_name);
         if (response_size - response_index < total_column_size + 1) {
+            ++resize_count;
+            response_size *= 2;
             response = arrayResize<unsigned char>(response, response_index, response_size);
         }
         mempcpy(response + response_index, column_name, current_column_size);
@@ -33,6 +36,8 @@ unsigned char *parseTableToStr(const pqxx::result &query_res, const std::unorder
         setDelimiter(response, response_index, cols_num, col_index, '|');
     }
     if (response_size - response_index < total_row_size) {
+        ++resize_count;
+        response_size *= 2;
         response = arrayResize<unsigned char>(response, response_index, response_size);
     }
     for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
@@ -42,8 +47,10 @@ unsigned char *parseTableToStr(const pqxx::result &query_res, const std::unorder
     }
     size_t required_space = total_row_size * rows_num;
     while (response_size - response_index < required_space) {
-        response = arrayResize<unsigned char>(response, response_index, response_size);
+        ++resize_count;
+        response_size *= 2;
     }
+    response = arrayResize<unsigned char>(response, response_index, response_size);
     for (unsigned int row_index = 0; row_index < rows_num; ++row_index) {
         for (unsigned int col_index = 0; col_index < cols_num; ++col_index) {
             const char *cstr_value = query_res[row_index][col_index].c_str();

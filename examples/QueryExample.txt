@@ -45,7 +45,7 @@ CREATE TABLE   COMPANY
 
 
 INSERT INTO COMPANY (  ID, 
-NAME,           AGE     
+NamE,           AGE     
     , 
         ADDRESS, SALARY)
 VALUES (1,      
@@ -73,14 +73,122 @@ id      , age
 
 
 DELETE FROM 
-COMPANY WHERE id = 3;
+COMPANY WHERE Id = 3;
 
 SELECT *    
 FROM     
 COMPANY;
+
+CREATE TABLE USERS(
+    ID SERIAL PRIMARY KEY,
+    USERNAME CHAR(50),
+    PASSWORD CHAR(50)  NOT NULL,
+    IS_SUPERUSER  BOOLEAN NOT NULL
+);
+
+works only if only add 5-7 values at once but SELECT on this works fine
+INSERT INTO USERS (USERNAME, PASSWORD, IS_SUPERUSER) VALUES 
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE),
+('FirstUser', '12345', TRUE);
+
+SELECT * FROM users;
 
 CAUSE EXCEPTION UnsupportedQueryError(handled)
 ALTER TABLE COMPANY ADD COLUMN destination varchar(30);
 
 CAUSE EXCEPTION (handled only on external level)
 SELECT id, nameq FROM COMPANY;
+
+

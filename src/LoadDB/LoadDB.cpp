@@ -12,13 +12,17 @@ void loadConfig(std::ifstream &input_config, std::unordered_map<std::string, std
     case 3:
         input_config.open(ADD_FIRST_USER_CONFIG_PATH);
         break;
+    case 4:
+        input_config.open(SERVER_CONFIG_PATH);
+        break;
     }
     if (input_config.is_open()) {
         readConfigMapFromJson(input_config, config_map);
     } else {
         switch (file_to_open) {
         case 1:
-            throw UnopenableFileError(std::string("Error. Couldn't open file: ") + std::string(MAIN_DB_CONFIG_PATH));
+            throw UnopenableFileError(std::string("Error. Couldn't open file: ") + std::string(MAIN_DB_CONFIG_PATH) +
+                                      '\n');
             break;
         case 2:
             throw UnopenableFileError(std::string("Error. Couldn't open file: ") + std::string(USER_DB_CONFIG_PATH));
