@@ -2,6 +2,7 @@
 #include <iostream>
 #include <pqxx/pqxx>
 
+// Set up project funciton to create USERS table and add first super user
 int main() {
     std::string sql_query;
     std::unordered_map<std::string, std::string> user_db_config_map;

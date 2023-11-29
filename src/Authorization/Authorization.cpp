@@ -5,6 +5,7 @@ std::time_t getCurrentTime() {
     return std::chrono::system_clock::to_time_t(time_point);
 }
 
+// Function to hamdle authorization process
 bool authorization(pqxx::connection &user_db_connection, int connection_sfd, std::ofstream &log_file,
                    unsigned char connection_type) {
     int readed_bytes = 0;
@@ -47,6 +48,7 @@ bool authorization(pqxx::connection &user_db_connection, int connection_sfd, std
     }
 }
 
+// Function to give access rights to user (to use CREATE, UPDATE, DROP, INSERT, DELETE, ACCESS queries)
 void giveAccess(pqxx::connection &user_db_connection, std::string &query) {
     std::vector<std::string> username_array;
     parseUsers(query, username_array);

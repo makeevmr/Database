@@ -13,6 +13,7 @@ inline void skipSpaces(const std::string &query, size_t &query_index) {
     }
 }
 
+// push symbol in column_name string (turning symbols in lowercase if modify flag set)
 inline void pushBackColumnName(std::string &column_name, bool &column_name_formed, unsigned char symbol, bool modify) {
     if (std::isalnum(symbol) || symbol == '_') {
         if (modify) {
@@ -30,6 +31,7 @@ inline void pushBackColumnName(std::string &column_name, bool &column_name_forme
     }
 }
 
+// Parse table name for CREATE, UPDATE, INSERT queries
 inline void parseTableName(const std::string &query, std::string &table_name, size_t &query_index) {
     while (query[query_index] != '(' && query[query_index] != ' ' && query[query_index] != '\t' &&
            query[query_index] != '\n') {
@@ -42,6 +44,7 @@ inline void parseTableName(const std::string &query, std::string &table_name, si
     }
 }
 
+// Parse valus which formated like so: 'Value1', 123, 'Value2', 'Value3', 12044
 inline void parseValues(const std::string &query, const std::string &table_name,
                         std::vector<std::string> &column_names_array,
                         std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map,
@@ -94,6 +97,7 @@ inline void parseValues(const std::string &query, const std::string &table_name,
     } while (column_names_index < column_names_size);
 }
 
+// Parse sequence like so: value1, value2, value3 ... (used for DROP TABLE table1, table2 ... and ACCESS user1, user2;)
 inline void parseSequence(const std::string &query, size_t &query_index, std::vector<std::string> &names_array,
                           bool modify) {
     std::string name;
@@ -236,6 +240,7 @@ void parseDropQuery(const std::string &query,
     }
 }
 
+// main function to parse query
 void updateColumnSize(const std::string &query,
                       std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
     if (query[0] == 'C' || query[0] == 'c') {
@@ -249,6 +254,7 @@ void updateColumnSize(const std::string &query,
     }
 }
 
+// Parse table name from SELECT query
 std::string getTableNameSelectQuery(const std::string &query) {
     char word_to_find[5] = "FROM";
     int match_index = 0;
@@ -277,6 +283,7 @@ std::string getTableNameSelectQuery(const std::string &query) {
     return table_name;
 }
 
+// Parse ACCESS query
 void parseUsers(const std::string &query, std::vector<std::string> &username_array) {
     size_t query_index = 7;
     parseSequence(query, query_index, username_array, false);

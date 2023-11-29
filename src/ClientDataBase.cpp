@@ -4,11 +4,11 @@
 
 #include <algorithm>
 #include <limits>
-
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
 
+// send bytes to server
 void writeBytes(int client_sfd, char *query_buffer) {
     int writed_bytes;
     std::cin >> query_buffer;
@@ -18,6 +18,7 @@ void writeBytes(int client_sfd, char *query_buffer) {
     }
 }
 
+// read bytes when message length couldn't be longer then 255 symbols
 bool readStaticResponse(int client_sfd, char *query_buffer, const size_t buffer_size, char *status_buffer) {
     int readed_bytes;
     readed_bytes = read(client_sfd, status_buffer, 3);
@@ -27,6 +28,7 @@ bool readStaticResponse(int client_sfd, char *query_buffer, const size_t buffer_
     return status_buffer[0] == '0';
 }
 
+// read bytes when message length coulde be longer then 1023 symbols
 bool readDynamicResponse(int client_sfd, char *&query_buffer, size_t &buffer_size, char *status_buffer,
                          const size_t status_size) {
     int readed_bytes;
@@ -51,6 +53,7 @@ bool readDynamicResponse(int client_sfd, char *&query_buffer, size_t &buffer_siz
     return status_buffer[0] == '0';
 }
 
+// main client function
 int main() {
     try {
         std::unordered_map<std::string, std::string> server_config_map;

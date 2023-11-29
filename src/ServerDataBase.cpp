@@ -12,9 +12,7 @@
 #define TABLES_MAP_PATH "config/TablesMap.json"
 #define LOG_FILE_PATH "log/LogFile.txt"
 
-// #define TABLES_MAP_PATH "../config/TablesMap.json"
-// #define LOG_FILE_PATH "../log/LogFile.txt"
-
+// main server function
 int main() {
     bool is_db_modified = false;
     bool is_super_user = false;
@@ -51,6 +49,7 @@ int main() {
                 throw UnopenableSocketError();
             }
             const int enable = 1;
+            // setsockopt will enable to use same port immediately when the program was stopped and restarted again
             setsockopt(server_sfd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int));
             bzero(reinterpret_cast<char *>(&server_addr), sizeof(server_addr));
             port_num = std::stoi(server_config_map["port"]);
@@ -68,6 +67,8 @@ int main() {
             }
             readed_bytes = read(connection_sfd, query_buffer, 1);
             is_super_user = authorization(user_db_connection, connection_sfd, log_file, query_buffer[0]);
+            // TABLES_MAP_PATH is json file which stores the maximum size of each column of each table for formatted
+            // console output
             std::ifstream input_table_map_json(TABLES_MAP_PATH);
             if (input_table_map_json.is_open()) {
                 readTablesMapFromJson(input_table_map_json, tables_map);
@@ -77,6 +78,10 @@ int main() {
             }
             input_table_map_json.close();
             std::string message = "Opened database successfully: " + std::string(main_db_connection.dbname()) + '\n';
+            // send a three-character message before each request
+            // first character - whether an error has occurred that requires stopping work (0 if not and if it does)
+            // next two characters how many times should the maximum message length (response_size) be doubled (1024
+            // symbols by default)
             readed_bytes = write(connection_sfd, "000", 3);
             readed_bytes = write(connection_sfd, message.c_str(), message.size());
             while (true) {

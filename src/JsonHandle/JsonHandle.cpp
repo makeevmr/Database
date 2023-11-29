@@ -6,6 +6,7 @@ inline void writeIndent(std::ofstream &output_json, unsigned short int layers) {
     }
 }
 
+// Function to write tables_map to output_json. Json contains two levels of nesting
 void writeTablesMapToJson(std::ofstream &output_json,
                           const std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
     output_json << "{\n";
@@ -39,6 +40,7 @@ void writeTablesMapToJson(std::ofstream &output_json,
     output_json << "\n}";
 }
 
+// Function to read tables_map from input_json. Json contains two levels of nesting
 void readTablesMapFromJson(std::ifstream &input_json,
                            std::unordered_map<std::string, std::unordered_map<std::string, size_t>> &tables_map) {
     std::string table_name;
@@ -104,6 +106,7 @@ void readTablesMapFromJson(std::ifstream &input_json,
     }
 }
 
+// Function to read config_map from input_json. Json contains one levels of nesting
 void readConfigMapFromJson(std::ifstream &input_json, std::unordered_map<std::string, std::string> &config_map) {
     bool is_key_set = false;
     std::string key;

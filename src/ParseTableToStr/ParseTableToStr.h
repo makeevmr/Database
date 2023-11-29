@@ -4,6 +4,7 @@
 #include <pqxx/pqxx>
 #include <unordered_map>
 
+// resize current array
 template <typename T>
 T *arrayResize(T *array, size_t array_len, size_t new_array_size) {
     T *new_array = new T[new_array_size];
@@ -12,6 +13,9 @@ T *arrayResize(T *array, size_t array_len, size_t new_array_size) {
     array = new_array;
     return array;
 }
+
+void setDelimiter(unsigned char *response, size_t &response_index, unsigned int cols_num, unsigned int col_index,
+                  unsigned char delimiter);
 
 unsigned char *parseTableToStr(const pqxx::result &query_res, const std::unordered_map<std::string, size_t> &column_map,
                                unsigned char *response, size_t &response_index, size_t &response_size,

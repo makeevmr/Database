@@ -1,5 +1,6 @@
 #include "ParseTableToStr.h"
 
+// set delimiter or last character in the row
 void setDelimiter(unsigned char *response, size_t &response_index, unsigned int cols_num, unsigned int col_index,
                   unsigned char delimiter) {
     if (col_index != cols_num - 1) {
@@ -10,6 +11,7 @@ void setDelimiter(unsigned char *response, size_t &response_index, unsigned int 
     ++response_index;
 }
 
+// Function to read table into response array in formatted view
 unsigned char *parseTableToStr(const pqxx::result &query_res, const std::unordered_map<std::string, size_t> &column_map,
                                unsigned char *response, size_t &response_index, size_t &response_size,
                                int &resize_count) {

@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <string>
 
+// Define some errors
+
 class CustomBaseError : public std::exception {
 public:
     virtual const char *what() const noexcept override { return "Error. Unknown error\n"; }
@@ -12,7 +14,8 @@ public:
 class UnsupportedQueryError : public CustomBaseError {
 public:
     virtual const char *what() const noexcept override {
-        return "Error. Unsupported query. Query must starts with one of this: ACCESS, SELECT, CREATE, INSERT, DELETE, UPDATE, "
+        return "Error. Unsupported query. Query must starts with one of this: ACCESS, SELECT, CREATE, INSERT, DELETE, "
+               "UPDATE, "
                "DROP.\n";
     }
 };

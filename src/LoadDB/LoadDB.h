@@ -6,11 +6,6 @@
 #define ADD_FIRST_USER_CONFIG_PATH "config/AddFirstUserConfig.json"
 #define SERVER_CONFIG_PATH "config/ServerConfig.json"
 
-// #define SERVER_CONFIG_PATH "../config/ServerConfig.json"
-// #define MAIN_DB_CONFIG_PATH "../config/MainDBConfig.json"
-// #define USER_DB_CONFIG_PATH "../config/UserDBConfig.json"
-// #define ADD_FIRST_USER_CONFIG_PATH "../config/AddFirstUserConfig.json"
-
 #include "../Error.h"
 #include "../JsonHandle/JsonHandle.h"
 
