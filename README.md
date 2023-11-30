@@ -22,10 +22,10 @@ All requests must end with the character ```;``` all characters after that are i
 
 The length of the request cannot exceed 256 characters, but the length of the response can be arbitrary
 
-SQL keywords, names for tables and columns are not case sensitive (except for the request ```exit;```), so commands like ```SELECT ID```, ```select id``` and ```SelECt Id``` will give the same results,  however keep in mind that values in database ake case sensetive.
+SQL keywords, names of tables and columns are not case sensitive (except for the request ```exit;```), so commands like ```SELECT ID```, ```select id``` and ```SelECt Id``` will give the same results,  however keep in mind that values in database are case sensetive.
 
-The request can contain an arbitrary number of spaces, tabs and newlines (if the request itself is less than 256 characters)
-so request like so also will work:
+The request can contain an arbitrary number of spaces, tabs and newlines (if the request itself is less than 256 characters),
+so request like so also will be executed:
 ```
 CREate TabLE   COmpANY 
      (
