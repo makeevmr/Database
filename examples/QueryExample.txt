@@ -13,11 +13,21 @@ INSERT INTO COMPANY (ID, NAME, AGE, ADDRESS, SALARY) VALUES
 
 SELECT * FROM COMPANY;
 
+SELECT id, name FROM COMPANY;
+
+SELECT id, name From company WHERE id = 2;
+
 UPDATE COMPANY SET (id, age, name) = (1232333, 1234, 'Eugene') WHERE id = 1;
+
+UPDATE COMPANY SET age = 40 WHERE id = 2;
+
+UPDATE COMPANY SET age = 40 WHERE age = 25;
 
 DELETE FROM COMPANY WHERE id = 3;
 
-SELECT id, name FROM COMPANY;
+DELETE FROM company;
+
+DROP TABLE company;
 
 CREATE TABLE accounts (
 	user_id serial PRIMARY KEY,
@@ -35,13 +45,13 @@ INSERT INTO accounts (user_id, username, password, email) VALUES
 SELECT * FROM accounts;
 
 
-CREATE TABLE   COMPANY  
+CREate TabLE   COmpANY 
      (
-            ID   INT PRIMARY KEY     NOT NULL,
-    NAME             TEXT    NOT NULL,
+            id   INT PRimaRY KEY     NOT NULL,
+    NamE             TexT    Not nuLL,
          
-         AGE            INT     NOT NULL,ADDRESS        CHAR(50),
-        SALARY         REAL);
+         Age            inT     NOT NULL,AdDRESS        CHAR(50),
+        SAlary         reaL);
 
 
 INSERT INTO COMPANY (  ID, 
