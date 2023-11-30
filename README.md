@@ -1,5 +1,5 @@
 # Database project
-Database information exchange project
+A project to execute SQL queries a database over a local network.
 
 
 ## Installaion
