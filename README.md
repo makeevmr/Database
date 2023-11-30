@@ -1,5 +1,5 @@
 # Database project
-A project to execute SQL queries a database over a local network.
+A project to execute SQL queries to the database over a local network.
 
 
 ## Installaion
