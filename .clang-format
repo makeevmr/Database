@@ -8,8 +8,10 @@ Language: Cpp
 # DerivePointerAlignment: false
 # PointerAlignment: Left
 
-# Use 100 columns for CPP
+# Use 120 columns for CPP
 ColumnLimit: 120
 AccessModifierOffset: -4
 AlwaysBreakTemplateDeclarations: true
+NamespaceIndentation: All
 ---
+

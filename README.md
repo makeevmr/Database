@@ -15,6 +15,9 @@ Note that ``` chmod +x ./ScriptName ```may be required to run scripts.
 4.  Run ```make``` command from root folder of the project. This command will create three binary files. You can also run ```make clean``` to clean all binaries and obj files.
 5.  Run ```./AddFirstUser```. This binary will create table USERS in user_db database and add superuser - FirstUser with password 12345. If you want to set different username and password, you can do this by changing ```config/AddFirstUserConfig.json``` Note, that common users can only run SELECT queries.
 
+## Run
+Run ```./ServerDataBase``` in one terminal window, then run ```./ClientDataBase``` in another
+
 ## General description of commands
 Example queries can be found in ```examples/QueryExample.txt```.
 
@@ -49,7 +52,7 @@ CREate TabLE   COmpANY
     SELECT id, name From company WHERE id = 2;
     ```
 
-4. ```CREATE``` to create database. Examples:
+4. ```CREATE``` to create new talbe in database. Examples:
     ```
     CREATE TABLE COMPANY(
         ID INT PRIMARY KEY     NOT NULL,
